@@ -26,7 +26,8 @@ namespace alura_movies_api.Controllers
             Movie movie = _mapper.Map<Movie>(movieDto);
             _context.Movies.Add(movie);
             _context.SaveChanges();
-            return CreatedAtAction(nameof(GetMovieById), new {id = movie.Id}, movie);
+            return CreatedAtAction(nameof(GetMovieById),
+             new {id = movie.Id}, movie);
         }
 
         [HttpGet]
@@ -41,14 +42,16 @@ namespace alura_movies_api.Controllers
         [HttpGet("{id}")]
         public IActionResult GetMovieById(int id)
         {
-           var movie = _context.Movies.FirstOrDefault(movie => movie.Id == id);
+           var movie = _context.Movies.FirstOrDefault(
+            movie => movie.Id == id);
            if (movie == null) return NotFound();
            var movieDto = _mapper.Map<ReadMovieDto>(movie);
            return Ok(movieDto);
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateMovie(int id,[FromBody]UpdateMovieDto movieDto)
+        public IActionResult UpdateMovie(
+            int id,[FromBody]UpdateMovieDto movieDto)
         {
             var movie = _context.Movies.FirstOrDefault(
                 movie => movie.Id == id);
@@ -59,7 +62,8 @@ namespace alura_movies_api.Controllers
         }
 
         [HttpPatch("{id}")]
-                public IActionResult UpdatePartialMovie(int id, JsonPatchDocument<UpdateMovieDto> patch)
+        public IActionResult UpdatePartialMovie(
+            int id, JsonPatchDocument<UpdateMovieDto> patch)
         {
             var movie = _context.Movies.FirstOrDefault(
                 movie => movie.Id == id);

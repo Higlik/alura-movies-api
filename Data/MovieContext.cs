@@ -11,4 +11,6 @@ public class MovieContext : DbContext
         
     }
     public DbSet<Movie> Movies {get;set;}
+    public DbSet<MovieTheater> MovieTheaters {get;set;}
+
 }
