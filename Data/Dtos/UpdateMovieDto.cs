@@ -1,16 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace alura_movies_api.Models;
+namespace alura_movies_api.Data.Dtos;
 
-public class Movie
+public class UpdateMovieDto
 {
-    [Key]
-    [Required]
-    public int Id { get; set; }
     [Required(ErrorMessage = "The title is required")]
     public string Title { get; set; }
     [Required(ErrorMessage = "The movie need a gender")]
-    [MaxLength(30, ErrorMessage = "Gender can be a maximum of 30 characters")]
+    [StringLength(30, ErrorMessage = "Gender can be a maximum of 30 characters")]
     public string Gender { get; set; }
     [Required]
     [Range(70,600,ErrorMessage = "Duration should be between 70 to 600 minutes")]
