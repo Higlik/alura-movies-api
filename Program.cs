@@ -1,4 +1,11 @@
+using alura_movies_api.Data;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("MovieConnetion");
+
+builder.Services.AddDbContext<MovieContext>(opts =>
+ opts.UseMySql(connectionString,ServerVersion.AutoDetect(connectionString)));
 
 // Add services to the container.
 
