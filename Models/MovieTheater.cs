@@ -10,4 +10,6 @@ public class MovieTheater
     [Required(ErrorMessage = "The name is required")]
     public string Name { get; set; }
 
+    public int AddressId { get; set; }
+    public virtual Address Address { get; set; }
 }

@@ -4,6 +4,8 @@ namespace alura_movies_api.Data.Dtos;
 
 public class CreateMovieTheaterDto
 {
-[Required(ErrorMessage = "The name is required")]
-public string Name { get; set; }
+    [Required(ErrorMessage = "The name is required")]
+    public string Name { get; set; }
+    public int AddressId { get; set; }
+
 }
