@@ -44,3 +44,5 @@
 /home/victor/1Programação/Dotnet/alura-movies-api/bin/Debug/net7.0/Microsoft.AspNetCore.Mvc.NewtonsoftJson.dll
 /home/victor/1Programação/Dotnet/alura-movies-api/bin/Debug/net7.0/Newtonsoft.Json.dll
 /home/victor/1Programação/Dotnet/alura-movies-api/bin/Debug/net7.0/Newtonsoft.Json.Bson.dll
+/home/victor/1Programação/Dotnet/alura-movies-api/bin/Debug/net7.0/Castle.Core.dll
+/home/victor/1Programação/Dotnet/alura-movies-api/bin/Debug/net7.0/Microsoft.EntityFrameworkCore.Proxies.dll
