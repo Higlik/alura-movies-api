@@ -25,14 +25,15 @@ public class SessionController : ControllerBase
         Session session = _mapper.Map<Session>(sessionDto);
         _context.Sessions.Add(session);
         _context.SaveChanges();
-        return CreatedAtAction(nameof(GetSessionById), new {Id = session.Id}, session); 
+        return CreatedAtAction(nameof(GetSessionById), new {
+            movieId = session.MovieId, movieTheaterId = session.MovieTheaterId}, session); 
     }
 
-    [HttpGet("{id}")]
-    public IActionResult GetSessionById(int id)
+    [HttpGet("{movieId}/{movieTheaterId}")]
+    public IActionResult GetSessionById(int movieId, int movieTheaterId)
     {
         Session session = _context.Sessions.FirstOrDefault(
-            session => session.Id == id);
+            session => session.MovieId == movieId && session.MovieTheaterId == movieTheaterId);
         if(session == null) return NotFound();
         ReadSessionDto sessionDto = _mapper.Map<ReadSessionDto>(session);
         return Ok(sessionDto);

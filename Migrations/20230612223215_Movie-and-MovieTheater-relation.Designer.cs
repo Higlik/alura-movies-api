@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using alura_movies_api.Data;
 
@@ -10,9 +11,10 @@ using alura_movies_api.Data;
 namespace alura_movies_api.Migrations
 {
     [DbContext(typeof(MovieContext))]
-    partial class MovieContextModelSnapshot : ModelSnapshot
+    [Migration("20230612223215_Movie-and-MovieTheater-relation")]
+    partial class MovieandMovieTheaterrelation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -101,7 +103,7 @@ namespace alura_movies_api.Migrations
                     b.HasOne("alura_movies_api.Models.Address", "Address")
                         .WithOne("MovieTheater")
                         .HasForeignKey("alura_movies_api.Models.MovieTheater", "AddressId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Address");

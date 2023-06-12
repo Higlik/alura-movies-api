@@ -3,6 +3,7 @@ using alura_movies_api.Data.Dtos;
 using alura_movies_api.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace alura_movies_api.Controllers;
 
@@ -41,10 +42,15 @@ public class MovieTheaterController : ControllerBase
     }
 
     [HttpGet]
-    public IEnumerable<ReadMovieTheaterDto> GetAllMovieTheaters()
+    public IEnumerable<ReadMovieTheaterDto> GetAllMovieTheaters([FromQuery]int? addressId = null)
         {
-            return _mapper.Map<List<ReadMovieTheaterDto>>(
+            if(addressId == null)
+            {
+                return _mapper.Map<List<ReadMovieTheaterDto>>(
                 _context.MovieTheaters.ToList());
+            }
+            return _mapper.Map<List<ReadMovieTheaterDto>>(
+                _context.MovieTheaters.FromSqlRaw($"SELECT Id, Name, AddressId FROM MovieThaters where moviethaters.AddressId = {addressId}").ToList());
         }
 
     [HttpPut("{id}")]

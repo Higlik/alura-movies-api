@@ -21,42 +21,48 @@ namespace alura_movies_api.Controllers
         }
 
         [HttpPost]
-        public IActionResult AddMovie([FromBody]CreateMovieDto movieDto)
+        public IActionResult AddMovie([FromBody] CreateMovieDto movieDto)
         {
             Movie movie = _mapper.Map<Movie>(movieDto);
             _context.Movies.Add(movie);
             _context.SaveChanges();
             return CreatedAtAction(nameof(GetMovieById),
-             new {id = movie.Id}, movie);
+             new { id = movie.Id }, movie);
         }
 
         [HttpGet]
         public IEnumerable<ReadMovieDto> GetAllMovies(
-            [FromQuery]int skip = 0, [FromQuery] int take = 40)
+            [FromQuery] int skip = 0,
+            [FromQuery] int take = 40,
+            [FromQuery] string? movieTheaterName = null)
         {
-
+            if (movieTheaterName == null)
+            {
+                return _mapper.Map<List<ReadMovieDto>>(_context.Movies.Skip(skip).Take(take).ToList());
+            }
             return _mapper.Map<List<ReadMovieDto>>(
-                _context.Movies.Skip(skip).Take(take));   
+            _context.Movies.Skip(skip).Take(take).Where(movie => movie.Sessions
+            .Any(session => session.MovieTheater.Name == movieTheaterName)).ToList());
         }
 
         [HttpGet("{id}")]
         public IActionResult GetMovieById(int id)
         {
-           var movie = _context.Movies.FirstOrDefault(
-            movie => movie.Id == id);
-           if (movie == null) return NotFound();
-           var movieDto = _mapper.Map<ReadMovieDto>(movie);
-           return Ok(movieDto);
+            var movie = _context.Movies.FirstOrDefault(
+             movie => movie.Id == id);
+            if (movie == null) return NotFound();
+            var movieDto = _mapper.Map<ReadMovieDto>(movie);
+            return Ok(movieDto);
         }
 
         [HttpPut("{id}")]
         public IActionResult UpdateMovie(
-            int id,[FromBody]UpdateMovieDto movieDto)
+            int id, [FromBody] UpdateMovieDto movieDto)
         {
             var movie = _context.Movies.FirstOrDefault(
                 movie => movie.Id == id);
-            if(movie == null) return NotFound();
-            _mapper.Map(movieDto,movie);
+            if (movie == null) return NotFound();
+            _mapper.Map(movieDto, movie);
             _context.SaveChanges();
             return NoContent();
         }
@@ -67,18 +73,18 @@ namespace alura_movies_api.Controllers
         {
             var movie = _context.Movies.FirstOrDefault(
                 movie => movie.Id == id);
-            if(movie == null) return NotFound();
+            if (movie == null) return NotFound();
 
             var movieToUpdate = _mapper.Map<UpdateMovieDto>(movie);
 
             patch.ApplyTo(movieToUpdate, ModelState);
 
-            if(!TryValidateModel(movieToUpdate))
+            if (!TryValidateModel(movieToUpdate))
             {
                 return ValidationProblem(ModelState);
             }
 
-            _mapper.Map(movieToUpdate,movie);
+            _mapper.Map(movieToUpdate, movie);
             _context.SaveChanges();
             return NoContent();
         }
@@ -87,11 +93,11 @@ namespace alura_movies_api.Controllers
         [HttpDelete("{id}")]
         public IActionResult DeleteMovie(int id)
         {
-           var movie = _context.Movies.FirstOrDefault(movie => movie.Id == id);
-           if (movie == null) return NotFound();
-           _context.Remove(movie);
-           _context.SaveChanges();
-           return NoContent();
+            var movie = _context.Movies.FirstOrDefault(movie => movie.Id == id);
+            if (movie == null) return NotFound();
+            _context.Remove(movie);
+            _context.SaveChanges();
+            return NoContent();
         }
     }
 }

@@ -11,7 +11,9 @@ namespace alura_movies_api.Profiles
             CreateMap<CreateMovieTheaterDto, MovieTheater>();
             CreateMap<MovieTheater, ReadMovieTheaterDto>()
             .ForMember(movieTheaterDto => movieTheaterDto.Address,
-                opt => opt.MapFrom(movieTheater => movieTheater.Address));
+                opt => opt.MapFrom(movieTheater => movieTheater.Address))
+            .ForMember(movieTheaterDto => movieTheaterDto.Sessions,
+                opt => opt.MapFrom(movieTheater => movieTheater.Sessions));
             CreateMap<UpdateMovieTheaterDto, MovieTheater>();
 
         }
